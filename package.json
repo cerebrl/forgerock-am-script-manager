@@ -5,6 +5,7 @@
   "scripts": {
     "build": "npm run test && npm run bundle && npm run test:bundle",
     "bundle": "rollup --config --compact",
+    "lint": "eslint './src/**/*.{js,ts}' --fix",
     "test": "jest --testMatch='<rootDir>/test/**/src/*.test.*'",
     "test:bundle": "jest --config='test.config.js' --testMatch='<rootDir>/test/**/dist/**/*.test.js'",
     "watch": "jest --testMatch='<rootDir>/test/**/src/*.test.*' --watch"
@@ -14,6 +15,7 @@
   "devDependencies": {
     "@babel/cli": "7.11.5",
     "@babel/core": "7.11.5",
+    "@babel/eslint-parser": "^7.13.14",
     "@babel/preset-env": "7.11.5",
     "@babel/preset-typescript": "^7.13.0",
     "@rollup/plugin-babel": "5.2.0",
@@ -22,8 +24,12 @@
     "@rollup/plugin-node-resolve": "9.0.0",
     "@rollup/plugin-typescript": "^8.2.1",
     "@types/jest": "^26.0.23",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.25.0",
     "geolib": "3.3.1",
     "jest": "26.4.2",
-    "rollup": "2.26.9"
+    "rollup": "2.26.9",
+    "typescript": "^4.2.4"
   }
 }

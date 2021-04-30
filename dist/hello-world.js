@@ -23,5 +23,14 @@
 var greet = (function (name) {
     if (name === void 0) { name = 'World'; }
     return "Hello, " + name + "!";
-});var username = sharedState.get('username').asString();
-outcome = greet([]);}());
+});/**
+ * Import functionality from modules for better organization and testability
+ */
+/**
+ * Interact with environment in index file
+ */
+var username = sharedState.get('username').asString();
+/**
+ * Once all environmental data is collected, call modular code
+ */
+outcome = greet(username);}());

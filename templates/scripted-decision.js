@@ -21,6 +21,9 @@
  * ******************************************************************/
 
 
+/**
+ * Interaction with environment is best done here, in the index file
+ */
 const realm = sharedState.get('realm').asString();
 
 /**
@@ -29,7 +32,10 @@ const realm = sharedState.get('realm').asString();
 outcome = '';
 
 /**
- * Business logic starts here
+ * Business logic starts here.
+ * NOTE: We recommend writing any moderately complex logic or greater in
+ * separate modules and import them for execution here. This allows for
+ * better testability as they are isolated from the global APIs.
  */
 if (realm === 'root') {
   outcome = 'top';

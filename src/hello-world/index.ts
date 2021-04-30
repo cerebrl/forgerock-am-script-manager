@@ -1,9 +1,14 @@
-import { SharedState } from './interfaces';
+/**
+ * Import functionality from modules for better organization and testability
+ */
 import greet from './greet';
 
-declare var outcome: string;
-declare var sharedState: SharedState;
-
+/**
+ * Interact with environment in index file
+ */
 const username = sharedState.get('username').asString();
 
+/**
+ * Once all environmental data is collected, call modular code
+ */
 outcome = greet(username);
