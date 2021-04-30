@@ -20,8 +20,8 @@
  * repo above and use it as a development toolkit to get started.
  * *************************************************************************/
 
-var greeting = function (name) {
+var greet = (function (name) {
     if (name === void 0) { name = 'World'; }
     return "Hello, " + name + "!";
-};
-outcome = greeting();}());
+});var username = sharedState.get('username').asString();
+outcome = greet([]);}());

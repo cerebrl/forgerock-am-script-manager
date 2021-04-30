@@ -8,6 +8,7 @@ module.exports = {
           node: '0.10.48'
         }
       }
-    ]
+    ],
+    '@babel/preset-typescript',
   ]
 };

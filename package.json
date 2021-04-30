@@ -5,9 +5,9 @@
   "scripts": {
     "build": "npm run test && npm run bundle && npm run test:bundle",
     "bundle": "rollup --config --compact",
-    "test": "jest --testMatch='<rootDir>/test/**/src/*.test.js'",
+    "test": "jest --testMatch='<rootDir>/test/**/src/*.test.*'",
     "test:bundle": "jest --config='test.config.js' --testMatch='<rootDir>/test/**/dist/**/*.test.js'",
-    "watch": "jest --testMatch='<rootDir>/test/src/*.test.js' --watch"
+    "watch": "jest --testMatch='<rootDir>/test/**/src/*.test.*' --watch"
   },
   "author": "Justin Lowery <justin.lowery@forgerock.com>",
   "license": "MIT",
@@ -15,11 +15,13 @@
     "@babel/cli": "7.11.5",
     "@babel/core": "7.11.5",
     "@babel/preset-env": "7.11.5",
+    "@babel/preset-typescript": "^7.13.0",
     "@rollup/plugin-babel": "5.2.0",
     "@rollup/plugin-commonjs": "15.0.0",
     "@rollup/plugin-multi-entry": "4.0.0",
     "@rollup/plugin-node-resolve": "9.0.0",
     "@rollup/plugin-typescript": "^8.2.1",
+    "@types/jest": "^26.0.23",
     "geolib": "3.3.1",
     "jest": "26.4.2",
     "rollup": "2.26.9"

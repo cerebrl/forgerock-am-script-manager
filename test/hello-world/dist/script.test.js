@@ -8,10 +8,10 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import '../../../dist/device-match';
+import '../../../dist/hello-world';
 
 describe('Test the built script', () => {
   it('matching profiles should match with "true"', () => {
-    expect(outcome).toBe('true');
+    expect(outcome).toBe('Hello, tester!');
   });
 });

@@ -1,7 +1,9 @@
+import { SharedState } from './interfaces';
+import greet from './greet';
+
 declare var outcome: string;
+declare var sharedState: SharedState;
 
-const greeting = (name:string = 'World'): string => {
-  return `Hello, ${name}!`;
-};
+const username = sharedState.get('username').asString();
 
-outcome = greeting();
+outcome = greet(username);
