@@ -3,13 +3,17 @@ module.exports = {
   parser: '@babel/eslint-parser',
   globals: {
     console: 'readonly',
+    describe: 'readonly',
     deviceProfilesDao: 'readonly',
+    expect: 'readonly',
+    it: 'readonly',
     logger: 'readonly',
     module: 'writable',
     outcome: 'writable',
     process: 'readonly',
     require: 'readonly',
     sharedState: 'readonly',
+
   },
   root: true,
   overrides: [{

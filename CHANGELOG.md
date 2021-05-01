@@ -8,5 +8,5 @@
 - Compile to ES5 for Rhino
 - Bundle into an IIFE (immediately invoked function expression)
 - Implement Jest for unit and integration testing
-- Manage multiple scripts in one /src directory
+- Manage multiple scripts in the /src directory
 - Each script maps to a single distribution file in /dist that can be copy pasted into AM

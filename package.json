@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "A script and development toolkit for AM scripts.",
   "scripts": {
-    "build": "npm run test && npm run bundle && npm run test:bundle",
+    "clean": "shx rm -rf ./dist",
+    "clean:danger": "npm run clean && shx rm -rf ./node_modules ./package-lock.json && git clean -fX",
+    "build": "npm run lint && npm run test && npm run bundle && npm run test:bundle",
     "bundle": "rollup --config --compact",
     "lint": "eslint './src/**/*.{js,ts}' --fix",
     "test": "jest --testMatch='<rootDir>/test/**/src/*.test.*'",
-    "test:bundle": "jest --config='test.config.js' --testMatch='<rootDir>/test/**/dist/**/*.test.js'",
+    "test:bundle": "jest --config='./test.config.js' --testMatch='<rootDir>/test/**/dist/**/*.test.js'",
     "watch": "jest --testMatch='<rootDir>/test/**/src/*.test.*' --watch"
   },
   "author": "Justin Lowery <justin.lowery@forgerock.com>",
@@ -30,6 +32,7 @@
     "geolib": "3.3.1",
     "jest": "26.4.2",
     "rollup": "2.26.9",
+    "shx": "^0.3.3",
     "typescript": "^4.2.4"
   }
 }
