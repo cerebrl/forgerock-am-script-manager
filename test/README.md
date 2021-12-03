@@ -14,6 +14,81 @@ For example:
 
 The purpose is to primarily test the source files, but you should have a few simple tests to validate the built, transpiled file is also functional.
 
+## Unit Testing
+
+Unit testing is the idea of testing code at an atomic level. A unit is analogous to a simple function that takes input via arguments and returns the result of the operation. Units should be pure, stateless functions, which makes testing them very easy as your test just calls the function passing input data and you capture the returned data from the function. Then you compare what you received versus what you expected.
+
+```js
+import greet from '../../../src/hello-world/greet';
+
+it('should result in greeting with name', () => {
+  const greeting = greet('test_user');
+  expect(greeting).toBe('Hello, test_user!');
+});
+```
+
+Unit tests should be contained within the `test/<your-script>/src/` directory and should not test the index file.
+
+### Integration Testing
+
+Integration testing – within this context means testing the built file – is a bit different than how unit testing works. To test the integration of you built code with the global APIs, we need to mock the APIs to simulate their function. The mocking for the default/common global APIs can be found in the `test/java-globals.js` file at the root of the project.
+
+Any additional global APIs that need to be provided should be done in the `beforeAll` function within your integration test. You'll have to recreate the structure of the API. Here's an example:
+
+```js
+beforeAll(() => {
+  global.sharedState = {
+    get: (path) => {
+      switch (path) {
+        case 'username':
+          return { asString: () => 'test_user' };
+      }
+    }
+  };
+});
+```
+
+The above is the mock for this global API provided by the Java environment:
+
+```js
+const username = sharedState.get('username').asString();
+```
+
+You can [find more information about mocking common global APIs in Jest's setupFiles documentation](https://jestjs.io/docs/configuration#setupfiles-array) and more information about [mocking unique global APIs within the beforeEach](https://jestjs.io/docs/api#beforeeachfn-timeout). The ensure the global APIs are available to the script, make sure to asynchrounously import the script you want to test within the test itself.
+
+So, don't do this:
+
+```js
+import '../../../dist/hello-world';
+
+beforeAll(() => {
+  /* mock APIs */
+});
+
+describe('Test the built script', () => {
+  it('matching profiles should match with "true"', () => {
+    expect(outcome).toBe('Hello, test_user!');
+  });
+});
+```
+
+Do this instead:
+
+```js
+beforeAll(() => {
+  /* mock APIs */
+});
+
+describe('Test the built script', () => {
+  it('matching profiles should match with "true"', async () => {
+    await import('../../../dist/hello-world');
+    expect(outcome).toBe('Hello, test_user!');
+  });
+});
+```
+
+> NOTE: It's important to remember not to test the same functionality in the integration test as you did in the unit test. Just do some simple high-level testing that ensures a few use cases flow through the code correctly. If you wrote good unit tests, trust that they are doing their job.
+
 ## Test-Driven Development
 
 10 simple steps to better code:

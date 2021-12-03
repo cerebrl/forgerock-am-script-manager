@@ -13,7 +13,7 @@ beforeAll(() => {
     get: (path) => {
       switch (path) {
         case 'username':
-          return { asString: () => 'Justin' };
+          return { asString: () => 'test_user' };
       }
     }
   };
@@ -22,6 +22,6 @@ beforeAll(() => {
 describe('Test the built script', () => {
   it('matching profiles should match with "true"', async () => {
     await import('../../../dist/hello-world');
-    expect(outcome).toBe('Hello, Justin!');
+    expect(outcome).toBe('Hello, test_user!');
   });
 });

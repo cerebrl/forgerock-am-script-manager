@@ -10,7 +10,7 @@
   </p>
 <hr/></p>
 
-This is a development toolkit for developing, testing and managing your AM authentication tree scripts. The purpose of this project is to help you develop complex scripts in modern JavaScript or TypeScript with a _modular_ architecture. You also have the availability of the NPM ecosystem to help speed up development.
+This is a development toolkit for developing, testing and managing your AM journey/tree scripts. The purpose of this project is to help you develop complex scripts in modern JavaScript or TypeScript with a _modular_ architecture. You also have the availability of the NPM ecosystem to help speed up development.
 
 ## Important Things to Know
 
@@ -20,7 +20,7 @@ This is a development toolkit for developing, testing and managing your AM authe
 - Includes build system with automated unit and integration tests
 - Includes the availability of the NPM ecosystem (use with care [FAQ: 1])
 - Does _not_ include support for modern, native Object/Array/String methods (but, polyfills can be added [FAQ: 2])
-- Produces copy-and-paste scripts ready for use in AM
+- Produces copy-and-paste'able scripts (`dist/`) ready for use in AM
 
 ## Project Overview
 
@@ -33,6 +33,10 @@ This is a development toolkit for developing, testing and managing your AM authe
 - Testing is provided by Jest
 - Linting [FAQ: 3] is provided by ESLint
 - Each directory has its own README.md for more detailed information
+
+  - [README.md for source dir](src/README.md)
+  - [README.md for test dir](test/README.md)
+  - [README.md for template dir](template/README.md)
 
 <!---------------------------------------------------------------------------------------------------------->
 <!-- Requirements -->
@@ -49,7 +53,7 @@ This is a development toolkit for developing, testing and managing your AM authe
 
 ```sh
 git clone <project>
-cd <project>
+cd forgerock-am-script-manager
 npm install
 npm run build
 ```
@@ -78,7 +82,7 @@ If you're used to writing large JavaScript files within older environments that 
 
 #### Rule One: Isolate global API access to index file
 
-Isolating your global or environment API access to just your index file, can help keep the rest of your code cleaner and easier to test. Access the global APIs for everything that you need within your script, and then pass all of this data into your modular functions.
+Isolating your global or environment API access to just your index file, can help keep the rest of your code cleaner and easier to test. Access the global APIs for everything that you need within your index file. Then, pass this data into your pure, side-effect free functions via arguments of your modular functions.
 
 ```js
 // `index.js`
@@ -151,7 +155,7 @@ This ensures the functionality is easy to test and predictable: given a set of i
 import { yourFunction } from '../../../src/your-script/your-function';
 
 it('should return "true", if x, y and z', () => {
-  const input = { /* ... */ };
+  const input = { /* your mock object */ };
   const output = yourFunction(input);
   const expected = 'true';
   expect(output).toBe(expected);
@@ -178,6 +182,14 @@ npm run build
 
 This command will lint [FAQ: 3], unit test the source code, transpile [FAQ: 4] and bundle the output, and then run integration tests on the final script. You can find this output script within the `dist/` directory. This script is what you'll copy and paste into AM's script editor. You can create the output without running the tests by using this command: `npm run bundle`.
 
+The output is technically called an IIFE (Immediately Invoked Function Expression), which is essentially a function that calls itself. This pattern helps keep all the declared variables in your code isolated from the global scope. It looks like this:
+
+```js
+(function () {
+  // your code here ...
+})();
+```
+
 #### Build tools
 
 Rollup is the library used for the bundling. You can find more information on it here: http://rollupjs.org.
@@ -192,7 +204,7 @@ The purpose of using TypeScript is to create a more "type safe" environment and 
 
 It does add a layer of complexity to authoring JavaScript, but if you're used to type-safe languages, TypeScript may feel more familiar to you. If types is an entirely foreign concept to you, there will be a learning curve, be warned.
 
-There are two types of, well, types in this project. There are the local types that you write in your source code and there are global types that are found in the `globals.d.ts` file at the root of the project.
+There are two types of, well, types in this project. There are the local types that you write in your source code and there are global types that are found in the `src/globals.d.ts` file.
 
 #### Static Code Analysis
 
@@ -203,33 +215,27 @@ The second layer is added by TypeScript and is entirely optional. The combinatio
 <!---------------------------------------------------------------------------------------------------------->
 <!-- Testing -->
 
-## Testing
+## Testing Overview
 
 Jest is the test framework used. You can find more information about it here: https://jestjs.io.
 
 You can run unit tests on the source code as well as integration tests for the final script:
 
 ```sh
-# Run unit tests against the source code
+# Run unit tests against the (non-index) source code
 npm run test
 
-# Run the integration test against the bundled script
+# Run the integration test against the bundled script, including index file code
 npm run test:bundle
 ```
 
-For convenience, you can also run a `watch` command, and it will watch for source file changes and automatically run the unit tests associated with the changed source file:
+For more information about unit versus integration testing, see [the README.md in the testing directory](test/README.md)
+
+For convenience, you can also run a `watch` command, and it will watch for source file changes and automatically run the unit tests associated with the changed (non-index) source file:
 
 ```sh
 npm run watch
 ```
-
-### Integration Testing
-
-Integration testing – within this context means testing the built file – is a bit different than how unit testing works. To test the integration of you built code with the global APIs, we need to mock the APIs to simulate their function. The mocking for the global APIs can be found in the `test.config.js` file at the root of the project.
-
-You can [find more information about mocking globals in Jest's documentation](https://jestjs.io/docs/configuration#globals-object). This is not the only method for mocking globals, but it keeps your integration tests clean. If you prefer to use a different method, you are welcome to use it.
-
-> NOTE: It's important to remember not to test the same functionality in the integration test as you did in the unit test. Just do some simple sanity testing that ensures a few use cases flow through the code correctly. If you wrote good unit tests, trust that they are doing their job.
 
 <!---------------------------------------------------------------------------------------------------------->
 <!-- FAQ -->
