@@ -8,10 +8,20 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import '../../../dist/hello-world';
+beforeAll(() => {
+  global.sharedState = {
+    get: (path) => {
+      switch (path) {
+        case 'username':
+          return { asString: () => 'Justin' };
+      }
+    }
+  };
+});
 
 describe('Test the built script', () => {
-  it('matching profiles should match with "true"', () => {
-    expect(outcome).toBe('Hello, tester!');
+  it('matching profiles should match with "true"', async () => {
+    await import('../../../dist/hello-world');
+    expect(outcome).toBe('Hello, Justin!');
   });
 });

@@ -8,10 +8,36 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import '../../../dist/device-match';
+const incoming = require('../data/test-profile');
+const stored = require('../data/test-profile');
+
+beforeAll(() => {
+  global.sharedState = {
+    get: (path) => {
+      switch (path) {
+        case 'realm':
+          return { asString: () => 'root' };
+        case 'forgeRock.device.profile':
+          return {
+            toString: () => JSON.stringify(incoming)
+          };
+        case 'username':
+          return { asString: () => 'tester' };
+      }
+    }
+  };
+
+  global.deviceProfilesDao = {
+    getDeviceProfiles: () => ({
+      size: () => 1,
+      get: () => [JSON.stringify(stored)]
+    })
+  };
+});
 
 describe('Test the built script', () => {
-  it('matching profiles should match with "true"', () => {
+  it('matching profiles should match with "true"', async () => {
+    await import('../../../dist/device-match');
     expect(outcome).toBe('true');
   });
 });
