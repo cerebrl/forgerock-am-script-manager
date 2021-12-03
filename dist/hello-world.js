@@ -22,7 +22,7 @@
 
 var greet = (function (name) {
     if (name === void 0) { name = 'World'; }
-    return "Hello, " + name + "!";
+    return "Hello, ".concat(name, "!");
 });/**
  * Import functionality from modules for better organization and testability
  */
